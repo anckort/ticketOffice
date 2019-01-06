@@ -6,11 +6,10 @@ public class Item {
     String code;
     boolean deletionMark;
 
-    public Item(int id, String name, String code, boolean deletionMark) {
+    public Item(int id, String name, String code) {
         this.id = id;
         this.name = name;
         this.code = code;
-        this.deletionMark = deletionMark;
     }
 
     public int getId() {
@@ -37,13 +36,6 @@ public class Item {
         this.code = code;
     }
 
-    public boolean isDeletionMark() {
-        return deletionMark;
-    }
-
-    public void setDeletionMark(boolean deletionMark) {
-        this.deletionMark = deletionMark;
-    }
 
     @Override
     public String toString() {
@@ -51,7 +43,6 @@ public class Item {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", code='" + code + '\'' +
-                ", deletionMark=" + deletionMark +
                 '}';
     }
 }

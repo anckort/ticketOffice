@@ -1,9 +1,13 @@
-entity\User.class
+controller\WarehouseController.class
 main.class
-servlets\IndexServlet.class
 entity\Item.class
-repository\UserRepository.class
+servlets\MenuServlet.class
 controller\ItemController.class
 controller\UserController.class
 service\UserService.class
-controller\ConnectionToDB.class
+entity\User.class
+servlets\IndexServlet.class
+repository\UserRepository.class
+servlets\ItemsServlet.class
+connectors\ConnectionToDB.class
+servlets\WarehouseServlet.class
