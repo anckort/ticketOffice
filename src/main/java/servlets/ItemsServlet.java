@@ -2,6 +2,8 @@ package servlets;
 
 import controller.ItemController;
 import entity.Item;
+import service.ItemService;
+import service.ItemServiceImp;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,15 +15,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@WebServlet (urlPatterns = "/items")
+@WebServlet(urlPatterns = "/items")
 public class ItemsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            ArrayList<Item> list = new ItemController().getListOfItems();
+            ItemService itemService = new ItemServiceImp();
+            ArrayList <Item> list = itemService.getListOfItems();
             req.setAttribute("listOfItems", list);
-            req.getRequestDispatcher("/WEB-INF/classes/items.jsp").forward(req,resp);
+            req.getRequestDispatcher("/WEB-INF/items.jsp").forward(req, resp);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -35,14 +38,39 @@ public class ItemsServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
-
-
+        String prsBtn = req.getParameter("btn");
+        switch (prsBtn) {
+            case "Add new item":
+                req.getRequestDispatcher("//WEB-INF/newItem.jsp").forward(req, resp);
+                break;
+            case "Delete selected":
+                String[] ar = req.getParameterValues("id");
+                ItemService itemService = new ItemServiceImp();
+                try {
+                    itemService.deleteSelectedItems(ar);
+                } catch (ClassNotFoundException
+                        | SQLException
+                        | IllegalAccessException
+                        | InstantiationException
+                        | InvocationTargetException
+                        | NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+                doPost(req,resp);
+                break;
+            case "To menu":
+                req.getRequestDispatcher("//WEB-INF/menu.jsp").forward(req, resp);
+                break;
+        }
 
     }
+
 }
+

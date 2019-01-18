@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ConnectionToDB {
     Connection connection;
@@ -28,5 +29,20 @@ public class ConnectionToDB {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
+    }
+
+    public void closeConnection(){
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public String prepareArrayForQuery(List<String> array){
+
+        String arrayByStr = array.toString().replaceAll("^\\[|\\]$", "");
+
+        return arrayByStr;
     }
 }

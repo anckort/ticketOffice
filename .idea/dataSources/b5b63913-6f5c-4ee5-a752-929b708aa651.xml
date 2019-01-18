@@ -1112,56 +1112,107 @@
     </collation>
     <table id="279" parent="6" name="items"/>
     <table id="280" parent="6" name="users"/>
-    <column id="281" parent="279" name="iditems">
+    <table id="281" parent="6" name="warehouse"/>
+    <column id="282" parent="279" name="iditems">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="282" parent="279" name="name">
+    <column id="283" parent="279" name="name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="283" parent="279" name="code">
+    <column id="284" parent="279" name="code">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="284" parent="279" name="deletion_mark">
-      <Position>4</Position>
-      <DataType>tinyint(4)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <key id="285" parent="279" name="PRIMARY">
+    <index id="285" parent="279" name="iditems">
+      <ColNames>iditems</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="286" parent="279" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>iditems</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="286" parent="280" name="idusers">
+    <key id="287" parent="279" name="iditems">
+      <ColNames>iditems</ColNames>
+      <UnderlyingIndexName>iditems</UnderlyingIndexName>
+    </key>
+    <column id="288" parent="280" name="idusers">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="287" parent="280" name="name">
+    <column id="289" parent="280" name="name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="288" parent="280" name="password">
+    <column id="290" parent="280" name="password">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="289" parent="280" name="PRIMARY">
+    <column id="291" parent="280" name="role">
+      <Position>4</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="292" parent="280" name="idusers_UNIQUE">
+      <ColNames>idusers</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="293" parent="280" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idusers</ColNames>
       <Primary>1</Primary>
     </key>
+    <key id="294" parent="280" name="idusers_UNIQUE">
+      <ColNames>idusers</ColNames>
+      <UnderlyingIndexName>idusers_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="295" parent="281" name="idwarehouse">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="296" parent="281" name="count">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="297" parent="281" name="item">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="298" parent="281" name="iditem">
+      <ColNames>item</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="299" parent="281" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>idwarehouse</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="300" parent="281" name="iditem">
+      <ColNames>item</ColNames>
+      <RefSchemaName>ticket_office</RefSchemaName>
+      <RefTableName>items</RefTableName>
+      <RefColNames>iditems</RefColNames>
+    </foreign-key>
   </database-model>
 </dataSource>
