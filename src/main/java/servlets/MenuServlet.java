@@ -18,13 +18,17 @@ public class MenuServlet extends HttpServlet {
 //        User user = (User) req.getAttribute("user");
         switch (pressedUrl){
             case "Warehouse":
-                req.getRequestDispatcher("/WEB-INF/warehouse.jsp").forward(req,resp);
+                req.getRequestDispatcher("/warehouse").forward(req,resp);
                 break;
             case "Items":
                 req.getRequestDispatcher("/items").forward(req,resp);
                 break;
             case "Registration":
                 req.getRequestDispatcher("/WEB-INF/registration.jsp").forward(req,resp);
+                break;
+            case "Cash desk":
+                req.getRequestDispatcher("/WEB-INF/cashDesk.jsp").forward(req,resp);
+                break;
         }
 
     }

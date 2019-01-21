@@ -19,7 +19,17 @@ public class WarehouseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
+        String btn = req.getParameter("btn");
+        switch (btn) {
+            case "To menu":
+                req.getRequestDispatcher("/WEB-INF/menu.jsp").forward(req, resp);
+                break;
+            case "Add item to warehouse":
+                req.getRequestDispatcher("/WEB-INF/addItemToWarehouse.jsp").forward(req, resp);
+                break;
+            default:
+                doPost(req, resp);
+        }
 
     }
 
@@ -28,23 +38,18 @@ public class WarehouseServlet extends HttpServlet {
 
         try {
             WarehouseService warehouseService = new WarehouseServiceImp();
-            ArrayList<WarehouseItem> list = warehouseService.getListOfWarehousItems();
+            ArrayList <WarehouseItem> list = null;
+            list = warehouseService.getListOfWarehousItems();
             req.setAttribute("listOfItems", list);
             req.getRequestDispatcher("/WEB-INF/warehouse.jsp").forward(req, resp);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException
+                | NoSuchMethodException
+                | InvocationTargetException
+                | IllegalAccessException
+                | InstantiationException
+                | SQLException e) {
             e.printStackTrace();
         }
-
 
     }
 }

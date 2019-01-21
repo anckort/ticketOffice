@@ -10,7 +10,7 @@
 </head>
 <body>
 <form action="warehouse" method="get">
-    <input type="submit" name="btn", value="To menu">
+    <input type="submit" name="btn" value="To menu">
     <table>
         <tr>
             <td><input type="submit" name="btn" value="Add item to warehouse"></td>
@@ -33,7 +33,7 @@
                 <%--<td><input type="checkbox" name="id" value="${item.getId()}"></td>--%>
                 <td> ${item.getItem().getName()}</td>
                 <td> ${item.getCount()}</td>
-                <td style="visibility:hidden;"> ${item.getItem()}</td>
+                <td style="visibility:collapse;"> ${item.getItem()}</td>
             </tr>
         </c:forEach>
         </tbody>

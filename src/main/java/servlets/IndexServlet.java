@@ -34,17 +34,12 @@ public class IndexServlet extends HttpServlet{
                 req.setAttribute("user",user);
                 req.getRequestDispatcher("/WEB-INF/menu.jsp").include(req,resp);
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (ClassNotFoundException
+                | SQLException
+                | NoSuchMethodException
+                | InvocationTargetException
+                | IllegalAccessException
+                | InstantiationException e) {
             e.printStackTrace();
         }
 

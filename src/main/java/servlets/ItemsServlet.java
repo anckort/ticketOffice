@@ -25,17 +25,12 @@ public class ItemsServlet extends HttpServlet {
             ArrayList <Item> list = itemService.getListOfItems();
             req.setAttribute("listOfItems", list);
             req.getRequestDispatcher("/WEB-INF/items.jsp").forward(req, resp);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException
+                | NoSuchMethodException
+                | InvocationTargetException
+                | IllegalAccessException
+                | InstantiationException
+                | SQLException e) {
             e.printStackTrace();
         }
 

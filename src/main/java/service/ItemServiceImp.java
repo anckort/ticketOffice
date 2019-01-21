@@ -55,4 +55,20 @@ public class ItemServiceImp implements ItemService {
         return false;
     }
 
+    @Override
+    public Item getItemByCodeOrName(String fieldForSearch) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
+
+        ConnectionToDB connection = new ConnectionToDB();
+        PreparedStatement statement = connection.getConnection().prepareStatement("SELECT i.iditems, i.name, i.code FROM items i WHERE code = ? OR name = ?;");
+        statement.setString(1,fieldForSearch);
+        statement.setString(2,fieldForSearch);
+        ResultSet rs = statement.executeQuery();
+        if (rs.next()){
+            Item item = new Item(rs.getInt(1), rs.getString(2), rs.getString(3));
+            connection.closeConnection();
+            return item;
+        }
+        return null;
+    }
+
 }
