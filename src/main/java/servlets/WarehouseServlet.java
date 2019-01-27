@@ -19,23 +19,6 @@ public class WarehouseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String btn = req.getParameter("btn");
-        switch (btn) {
-            case "To menu":
-                req.getRequestDispatcher("/WEB-INF/menu.jsp").forward(req, resp);
-                break;
-            case "Add item to warehouse":
-                req.getRequestDispatcher("/WEB-INF/addItemToWarehouse.jsp").forward(req, resp);
-                break;
-            default:
-                doPost(req, resp);
-        }
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         try {
             WarehouseService warehouseService = new WarehouseServiceImp();
             ArrayList <WarehouseItem> list = null;
@@ -49,6 +32,24 @@ public class WarehouseServlet extends HttpServlet {
                 | InstantiationException
                 | SQLException e) {
             e.printStackTrace();
+        }
+
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String btn = req.getParameter("btn");
+        switch (btn) {
+            case "To menu":
+                resp.sendRedirect("/menu");
+                break;
+            case "Add item to warehouse":
+                resp.sendRedirect("/addToWarehouse");
+                break;
+            default:
+                req.getRequestDispatcher("/WEB-INF/warehouse.jsp").forward(req, resp);
         }
 
     }

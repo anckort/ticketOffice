@@ -1,5 +1,6 @@
 package servlets;
 
+import entity.User;
 import service.ItemService;
 import service.ItemServiceImp;
 
@@ -17,7 +18,12 @@ public class NewItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
+        User user = (User) req.getSession().getAttribute("user");
+        if (user == null){
+            resp.sendRedirect("/index");
+        }else{
+            req.getRequestDispatcher("/WEB-INF/newItem.jsp").forward(req,resp);
+        }
 
     }
 
@@ -32,7 +38,7 @@ public class NewItemServlet extends HttpServlet {
                     String name = req.getParameter("name");
                     String code = req.getParameter("code");
                     itemService.addNewItem(name,code);
-                    req.getRequestDispatcher("/items").forward(req,resp);
+                    resp.sendRedirect("/items");
                 } catch (ClassNotFoundException
                         | SQLException
                         | IllegalAccessException
@@ -43,7 +49,7 @@ public class NewItemServlet extends HttpServlet {
                 }
                 break;
             case "Cancel":
-                req.getRequestDispatcher("/items").forward(req,resp);
+                resp.sendRedirect("/items");
                 break;
         }
 

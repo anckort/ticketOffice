@@ -20,25 +20,6 @@ public class ItemsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            ItemService itemService = new ItemServiceImp();
-            ArrayList <Item> list = itemService.getListOfItems();
-            req.setAttribute("listOfItems", list);
-            req.getRequestDispatcher("/WEB-INF/items.jsp").forward(req, resp);
-        } catch (ClassNotFoundException
-                | NoSuchMethodException
-                | InvocationTargetException
-                | IllegalAccessException
-                | InstantiationException
-                | SQLException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String prsBtn = req.getParameter("btn");
         switch (prsBtn) {
@@ -64,6 +45,28 @@ public class ItemsServlet extends HttpServlet {
                 req.getRequestDispatcher("//WEB-INF/menu.jsp").forward(req, resp);
                 break;
         }
+
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        try {
+            ItemService itemService = new ItemServiceImp();
+            ArrayList <Item> list = itemService.getListOfItems();
+            req.setAttribute("listOfItems", list);
+            req.getRequestDispatcher("/WEB-INF/items.jsp").forward(req, resp);
+        } catch (ClassNotFoundException
+                | NoSuchMethodException
+                | InvocationTargetException
+                | IllegalAccessException
+                | InstantiationException
+                | SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
 
     }
 

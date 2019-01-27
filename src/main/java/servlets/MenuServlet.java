@@ -18,17 +18,32 @@ public class MenuServlet extends HttpServlet {
 //        User user = (User) req.getAttribute("user");
         switch (pressedUrl){
             case "Warehouse":
-                req.getRequestDispatcher("/warehouse").forward(req,resp);
+                resp.sendRedirect("/warehouse");
                 break;
             case "Items":
-                req.getRequestDispatcher("/items").forward(req,resp);
+                resp.sendRedirect("/items");
                 break;
             case "Registration":
-                req.getRequestDispatcher("/WEB-INF/registration.jsp").forward(req,resp);
+                resp.sendRedirect("/registration");
                 break;
             case "Cash desk":
-                req.getRequestDispatcher("/WEB-INF/cashDesk.jsp").forward(req,resp);
+                resp.sendRedirect("/cashDesk");
                 break;
+            case"Cancellation":
+                resp.sendRedirect("/cancellation");
+                break;
+        }
+
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        User user = (User) req.getSession().getAttribute("user");
+        if (user == null){
+            req.getRequestDispatcher("/index").forward(req,resp);
+        }else{
+            req.getRequestDispatcher("/WEB-INF/menu.jsp").forward(req,resp);
         }
 
     }

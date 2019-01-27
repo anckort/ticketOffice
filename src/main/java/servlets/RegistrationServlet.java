@@ -1,6 +1,7 @@
 package servlets;
 
 import controller.UserController;
+import entity.User;
 import service.UserService;
 import service.UserServiceImp;
 
@@ -37,6 +38,18 @@ public class RegistrationServlet extends HttpServlet {
                         | SQLException e) {
                     e.printStackTrace();
                 }
+        }
+
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        User user = (User) req.getSession().getAttribute("user");
+        if(user == null){
+            resp.sendRedirect("/index");
+        }else{
+            req.getRequestDispatcher("/WEB-INF/registration.jsp").forward(req,resp);
         }
 
     }

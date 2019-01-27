@@ -9,7 +9,7 @@
     <%User user = (User) request.getAttribute("user");%>
 </head>
 <body>
-<form action="warehouse" method="get">
+<form action="warehouse" method="post">
     <input type="submit" name="btn" value="To menu">
     <table>
         <tr>

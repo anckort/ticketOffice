@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -31,8 +32,10 @@ public class IndexServlet extends HttpServlet{
         try {
             user = userService.checkLogIn(username,password);
             if(user != null){
-                req.setAttribute("user",user);
-                req.getRequestDispatcher("/WEB-INF/menu.jsp").include(req,resp);
+                req.getSession().setAttribute("user",user);
+                resp.sendRedirect("/menu");
+//                this.getServletContext().getRequestDispatcher("/menu").forward(req,resp);
+//                req.getRequestDispatcher("/menu").include(req,resp);
             }
         } catch (ClassNotFoundException
                 | SQLException

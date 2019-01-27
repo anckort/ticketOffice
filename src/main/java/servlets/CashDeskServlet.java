@@ -2,6 +2,7 @@ package servlets;
 
 import entity.CashDeskItem;
 import entity.Item;
+import entity.User;
 import service.CashDeskService;
 import service.CashDeskServiceImp;
 import service.ItemService;
@@ -23,7 +24,13 @@ public class CashDeskServlet extends HttpServlet {
     ArrayList<CashDeskItem> listOfItems = new ArrayList <CashDeskItem>();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("listOfItems",listOfItems);
+
+        User user = (User) req.getSession().getAttribute("user");
+        if (user == null){
+            resp.sendRedirect("/index");
+        }else{
+            req.getRequestDispatcher("/WEB-INF/cashDesk.jsp").forward(req,resp);
+        }
     }
 
     @Override
@@ -38,7 +45,7 @@ public class CashDeskServlet extends HttpServlet {
                     String fieldForSearch = req.getParameter("fieldForSearch");
                     Item item = itemService.getItemByCodeOrName(fieldForSearch);
                     req.setAttribute("item",item);
-                    req.getRequestDispatcher("/WEB-INF/cashDesk.jsp").forward(req,resp);
+                    req.getRequestDispatcher("WEB-INF/cashDesk.jsp").forward(req,resp);
                 } catch (ClassNotFoundException
                         | NoSuchMethodException
                         | InvocationTargetException
@@ -56,16 +63,14 @@ public class CashDeskServlet extends HttpServlet {
                     listOfItems = new ArrayList <CashDeskItem>();
                 }
                 String fieldForSearch = req.getParameter("fieldForSearch");
-                String count = req.getParameter("count");
-                if(count == null){
-                    break;
-                }
+                int count = Integer.parseInt(req.getParameter("count"));
+
                 try {
                     Item item = itemService.getItemByCodeOrName(fieldForSearch);
-                    CashDeskItem cashDeskItem = new CashDeskItem(item,Integer.parseInt(count));
+                    CashDeskItem cashDeskItem = new CashDeskItem(item,count,0,null,0);
                     listOfItems.add(cashDeskItem);
-                    req.setAttribute("listOfItems",listOfItems);
-                    req.getRequestDispatcher("/WEB-INF/cashDesk.jsp").forward(req,resp);
+                    req.getSession().setAttribute("listOfItems",listOfItems);
+                    req.getRequestDispatcher("WEB-INF/cashDesk.jsp").forward(req,resp);
                 } catch (ClassNotFoundException
                         | NoSuchMethodException
                         | InstantiationException
@@ -79,8 +84,11 @@ public class CashDeskServlet extends HttpServlet {
                 listOfItems = (ArrayList <CashDeskItem>) req.getSession().getAttribute("listOfItems");
                 CashDeskService cashDeskService = new CashDeskServiceImp();
                 try {
-                    cashDeskService.AddSale(listOfItems);
-                    req.getRequestDispatcher("/WEB-INF/cashDesk.jsp").forward(req,resp);
+                    User user = (User) req.getSession().getAttribute("user");
+                    cashDeskService.AddSale(listOfItems,user);
+                    listOfItems.clear();
+                    req.getSession().setAttribute("listOfItems",listOfItems);
+                    req.getRequestDispatcher("WEB-INF/cashDesk.jsp").forward(req,resp);
                 } catch (ClassNotFoundException
                         | NoSuchMethodException
                         | InstantiationException
@@ -91,13 +99,13 @@ public class CashDeskServlet extends HttpServlet {
                 }
                 break;
             case "To menu":
-                req.getRequestDispatcher("/WEB-INF/menu.jsp").forward(req,resp);
+                resp.sendRedirect("/menu");
                 break;
             case "Cancel":
                 listOfItems = (ArrayList <CashDeskItem>) req.getSession().getAttribute("listOfItems");
                 listOfItems.clear();
                 req.getSession().setAttribute("listOfItems",listOfItems);
-                req.getRequestDispatcher("/WEB-INF/cashDesk.jsp").forward(req,resp);
+                req.getRequestDispatcher("WEB-INF/cashDesk.jsp").forward(req,resp);
         }
 
     }

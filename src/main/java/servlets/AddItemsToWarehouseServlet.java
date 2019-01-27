@@ -1,6 +1,7 @@
 package servlets;
 
 import entity.Item;
+import entity.User;
 import entity.WarehouseItem;
 import service.ItemService;
 import service.ItemServiceImp;
@@ -31,7 +32,7 @@ public class AddItemsToWarehouseServlet extends HttpServlet {
                     Item item = itemService.getItemByCodeOrName(code);
                     req.setAttribute("item",item);
                     req.setAttribute("itemID", item.getId());
-                    req.getRequestDispatcher("/WEB-INF/addItemToWarehouse.jsp").forward(req, resp);
+                    req.getRequestDispatcher("WEB-INF/addItemToWarehouse.jsp").forward(req,resp);
                 } catch (ClassNotFoundException
                         | NoSuchMethodException
                         | InvocationTargetException
@@ -54,7 +55,7 @@ public class AddItemsToWarehouseServlet extends HttpServlet {
                     else{
                         errorStr.concat("Not founded such item");
                         req.setAttribute("errorStr", errorStr);
-                        req.getRequestDispatcher("/WEB-INF/addItemToWarehouse.jsp").forward(req, resp);
+                        req.getRequestDispatcher("WEB-INF/addItemToWarehouse.jsp").forward(req,resp);
                     }
                 } catch (ClassNotFoundException
                         | NoSuchMethodException
@@ -71,4 +72,15 @@ public class AddItemsToWarehouseServlet extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        User user = (User) req.getSession().getAttribute("user");
+        if (user == null){
+            resp.sendRedirect("/index");
+        }else{
+            req.getRequestDispatcher("WEB-INF/addItemToWarehouse.jsp").forward(req,resp);
+        }
+
+    }
 }
