@@ -14,45 +14,92 @@ import java.util.ArrayList;
 public class WarehouseServiceImp implements WarehouseService {
     private static final Logger LOGGER = Logger.getLogger(WarehouseServiceImp.class.getName());
     @Override
-    public ArrayList<WarehouseItem> getListOfWarehousItems() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
-        ConnectionToDB connection = new ConnectionToDB();
-        PreparedStatement statement = connection.getConnection().prepareStatement("select  i.name, SUM(w.count), i.iditems, i.code from warehouse w left join items i on w.item=i.iditems group by i.iditems,i.name,i.code;");
-        ResultSet rs = statement.executeQuery();
+    public ArrayList<WarehouseItem> getListOfWarehousItems() throws IllegalAccessException {
+        ConnectionToDB connection = null;
+        try {
+            connection = new ConnectionToDB();
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+        }
+        PreparedStatement statement = null;
+        try {
+            statement = connection.getConnection().prepareStatement("select  i.name, SUM(w.count), i.iditems, i.code from warehouse w left join items i on w.item=i.iditems group by i.iditems,i.name,i.code;");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+        }
         ArrayList list = new ArrayList <>();
-        while (rs.next()){
-            list.add(new WarehouseItem(rs.getInt(2),new Item(rs.getInt(3),rs.getString(1),rs.getString(4))));
+        ResultSet rs = null;
+        try {
+            rs = statement.executeQuery();
+            while (rs.next()){
+                list.add(new WarehouseItem(rs.getInt(2),new Item(rs.getInt(3),rs.getString(1),rs.getString(4))));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         connection.closeConnection();
         return list;
     }
 
     @Override
-    public boolean checkCountOfItems(int itemId, int count) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
-        ConnectionToDB connection = new ConnectionToDB();
-        PreparedStatement statement = connection.getConnection().prepareStatement("select  w.item, SUM(w.count) from warehouse w where item = ? group by w.item;");
-        statement.setInt(1,count);
-        ResultSet rs = statement.executeQuery();
-        if (rs.next()){
-            if (rs.getInt(2)>=count){
-                connection.closeConnection();
-                return true;
-
-            }
+    public boolean checkCountOfItems(int itemId, int count) {
+        ConnectionToDB connection = null;
+        try {
+            connection = new ConnectionToDB();
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
+        PreparedStatement statement = null;
+        try {
+            statement = connection.getConnection().prepareStatement("select  w.item, SUM(w.count) from warehouse w where item = ? group by w.item;");
+            statement.setInt(1,count);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()){
+                if (rs.getInt(2)>=count){
+                    connection.closeConnection();
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+        }
+
         connection.closeConnection();
         return false;
     }
 
     @Override
-    public boolean addItemToWarehouse(int itemId, int count) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
-        ConnectionToDB connection = new ConnectionToDB();
-        PreparedStatement statement = connection.getConnection().prepareStatement("INSERT into warehouse(item,count) VALUES (?,?);" );
-        statement.setInt(1,itemId);
-        statement.setInt(2,count);
-        int rs = statement.executeUpdate();
-        if(rs == 1 ){
-            LOGGER.info("added new item to warehouse");
-            return true;
+    public boolean addItemToWarehouse(int itemId, int count) throws IllegalAccessException {
+        ConnectionToDB connection = null;
+        try {
+            connection = new ConnectionToDB();
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+        }
+        PreparedStatement statement = null;
+        try {
+            statement = connection.getConnection().prepareStatement("INSERT into warehouse(item,count) VALUES (?,?);" );
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+        }
+        try {
+            statement.setInt(1,itemId);
+            statement.setInt(2,count);
+            int rs = statement.executeUpdate();
+            if(rs == 1 ){
+                LOGGER.info("added new item to warehouse");
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         LOGGER.error("error of adding new item to warehouse");
         return false;

@@ -55,9 +55,11 @@ public class XReportServlet extends HttpServlet {
                         | SQLException
                         | NoSuchMethodException
                         | ClassNotFoundException
+                        | NullPointerException
                         | IllegalAccessException e) {
                     e.printStackTrace();
                     LOGGER.error(e.getMessage());
+                    req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
                 }
                 break;
         }

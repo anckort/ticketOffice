@@ -57,8 +57,11 @@ public class CancellationServlet extends HttpServlet {
                         | InstantiationException
                         | InvocationTargetException
                         | SQLException
+                        | NullPointerException
                         | IllegalAccessException e) {
                     e.printStackTrace();
+                    LOGGER.error(e.getMessage());
+                    req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
                 }
                 break;
             case "Cancel":
@@ -80,8 +83,11 @@ public class CancellationServlet extends HttpServlet {
                         | InstantiationException
                         | InvocationTargetException
                         | SQLException
+                        | NullPointerException
                         | IllegalAccessException e) {
                     e.printStackTrace();
+                    LOGGER.error(e.getMessage());
+                    req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
                 }
                 break;
             case "Cancel all":
@@ -106,8 +112,11 @@ public class CancellationServlet extends HttpServlet {
                         | InstantiationException
                         | IllegalAccessException
                         | SQLException
+                        | NullPointerException
                         | InvocationTargetException e) {
                     e.printStackTrace();
+                    LOGGER.error(e.getMessage());
+                    req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
                 }
                 break;
         }

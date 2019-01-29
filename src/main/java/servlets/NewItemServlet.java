@@ -47,9 +47,11 @@ public class NewItemServlet extends HttpServlet {
                         | IllegalAccessException
                         | InstantiationException
                         | InvocationTargetException
+                        | NullPointerException
                         | NoSuchMethodException e) {
                     e.printStackTrace();
                     LOGGER.error(e.getMessage());
+                    req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
                 }
                 break;
             case "Cancel":

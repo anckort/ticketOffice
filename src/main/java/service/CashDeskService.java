@@ -6,8 +6,6 @@ import entity.User;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 
 public interface CashDeskService {
 void AddSale(ArrayList<CashDeskItem> listOfItems, User user) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException;

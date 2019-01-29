@@ -18,8 +18,14 @@ public class CashDeskServiceImp implements CashDeskService {
     private static final Logger LOGGER = Logger.getLogger(CashDeskServiceImp.class.getName());
 
     @Override
-    public void AddSale(ArrayList<CashDeskItem> listOfItems, User user) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
-        ConnectionToDB connection = new ConnectionToDB();
+    public void AddSale(ArrayList<CashDeskItem> listOfItems, User user) {
+        ConnectionToDB connection = null;
+        try {
+            connection = new ConnectionToDB();
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+        }
 
         for (CashDeskItem item:listOfItems){
             try {
@@ -72,7 +78,12 @@ public class CashDeskServiceImp implements CashDeskService {
                 LOGGER.info("added new sale ticketID="+String.valueOf(ticketKey));
             }catch (SQLException e){
                 e.printStackTrace();
-                connection.getConnection().rollback();
+                try {
+                    connection.getConnection().rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                    LOGGER.error(e1.getMessage());
+                }
                 LOGGER.error(e.getMessage());
             }
         }
@@ -120,10 +131,22 @@ public class CashDeskServiceImp implements CashDeskService {
     }
 
     @Override
-    public void cancelSale(String[] list) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
-        ConnectionToDB connection = new ConnectionToDB();
+    public void cancelSale(String[] list) {
+        ConnectionToDB connection = null;
+        try {
+            connection = new ConnectionToDB();
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+        }
         String arByStr = (String) connection.prepareArrayForQuery(Arrays.asList(list));
-        PreparedStatement statement = connection.getConnection().prepareStatement("UPDATE cashdesk SET cashdesk.canceled = 1 WHERE cashdesk.idcashDesk IN ("+arByStr+");");
+        PreparedStatement statement = null;
+        try {
+            statement = connection.getConnection().prepareStatement("UPDATE cashdesk SET cashdesk.canceled = 1 WHERE cashdesk.idcashDesk IN ("+arByStr+");");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+        }
         try {
             statement.executeUpdate();
             connection.closeConnection();

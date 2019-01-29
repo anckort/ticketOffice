@@ -53,9 +53,11 @@ public class CashDeskServlet extends HttpServlet {
                         | InvocationTargetException
                         | IllegalAccessException
                         | InstantiationException
+                        | NullPointerException
                         | SQLException e) {
                     e.printStackTrace();
                     LOGGER.error(e.getMessage());
+                    req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
                 }
                 break;
             case "Add":
@@ -66,9 +68,8 @@ public class CashDeskServlet extends HttpServlet {
                     listOfItems = new ArrayList <CashDeskItem>();
                 }
                 String fieldForSearch = req.getParameter("fieldForSearch");
-                int count = Integer.parseInt(req.getParameter("count"));
-
                 try {
+                    int count = Integer.parseInt(req.getParameter("count"));
                     Item item = itemService.getItemByCodeOrName(fieldForSearch);
                     CashDeskItem cashDeskItem = new CashDeskItem(item,count,0,null,0);
                     listOfItems.add(cashDeskItem);
@@ -79,9 +80,12 @@ public class CashDeskServlet extends HttpServlet {
                         | InstantiationException
                         | InvocationTargetException
                         | IllegalAccessException
+                        | NullPointerException
+                        | NumberFormatException
                         | SQLException e) {
                     e.printStackTrace();
                     LOGGER.error(e.getMessage());
+                    req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
                 }
                 break;
             case "Sale":
@@ -98,9 +102,11 @@ public class CashDeskServlet extends HttpServlet {
                         | InstantiationException
                         | InvocationTargetException
                         | IllegalAccessException
+                        | NullPointerException
                         | SQLException e) {
                     e.printStackTrace();
                     LOGGER.error(e.getMessage());
+                    req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
                 }
                 break;
             case "To menu":
@@ -108,7 +114,9 @@ public class CashDeskServlet extends HttpServlet {
                 break;
             case "Cancel":
                 listOfItems = (ArrayList <CashDeskItem>) req.getSession().getAttribute("listOfItems");
-                listOfItems.clear();
+                if (listOfItems != null) {
+                    listOfItems.clear();
+                }
                 req.getSession().setAttribute("listOfItems",listOfItems);
                 req.getRequestDispatcher("WEB-INF/cashDesk.jsp").forward(req,resp);
         }

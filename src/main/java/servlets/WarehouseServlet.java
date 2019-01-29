@@ -33,9 +33,11 @@ public class WarehouseServlet extends HttpServlet {
                 | InvocationTargetException
                 | IllegalAccessException
                 | InstantiationException
+                | NullPointerException
                 | SQLException e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
         }
 
 

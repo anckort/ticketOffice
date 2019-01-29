@@ -43,9 +43,11 @@ public class IndexServlet extends HttpServlet{
                 | NoSuchMethodException
                 | InvocationTargetException
                 | IllegalAccessException
+                | NullPointerException
                 | InstantiationException e) {
             e.printStackTrace();
             LOGGER.error(e.getMessage());
+            req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
         }
 
 

@@ -33,15 +33,17 @@ public class AddItemsToWarehouseServlet extends HttpServlet {
                     Item item = itemService.getItemByCodeOrName(code);
                     req.setAttribute("item",item);
                     req.setAttribute("itemID", item.getId());
-                    req.getRequestDispatcher("WEB-INF/addItemToWarehouse.jsp").forward(req,resp);
+                    req.getRequestDispatcher("/WEB-INF/addItemToWarehouse.jsp").forward(req,resp);
                 } catch (ClassNotFoundException
                         | NoSuchMethodException
                         | InvocationTargetException
                         | InstantiationException
                         | SQLException
+                        | NullPointerException
                         | IllegalAccessException e) {
                     e.printStackTrace();
                     LOGGER.error(e.getMessage());
+                    req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
                 }
                 break;
             case "Add":
@@ -63,10 +65,12 @@ public class AddItemsToWarehouseServlet extends HttpServlet {
                         | NoSuchMethodException
                         | InstantiationException
                         | InvocationTargetException
+                        | NullPointerException
                         | IllegalAccessException
                         | SQLException e) {
                     e.printStackTrace();
                     LOGGER.error(e.getMessage());
+                    req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
                 }
                 break;
             case "Cancel":

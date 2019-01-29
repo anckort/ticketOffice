@@ -29,16 +29,18 @@ public class RegistrationServlet extends HttpServlet {
             case "Save":
                 try {
                     if (userService.addNewUser(username,password,role)){
-                        resp.getWriter().write("Succes!");
+                        resp.sendRedirect("/users");
                     }
                 } catch (ClassNotFoundException
                         | NoSuchMethodException
                         | InvocationTargetException
                         | InstantiationException
                         | IllegalAccessException
+                        | NullPointerException
                         | SQLException e) {
                     e.printStackTrace();
                     LOGGER.error(e.getMessage());
+                    req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
                 }
         }
 

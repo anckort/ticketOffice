@@ -2,6 +2,7 @@ package servlets;
 
 import controller.ItemController;
 import entity.Item;
+import entity.User;
 import org.apache.log4j.Logger;
 import service.ItemService;
 import service.ItemServiceImp;
@@ -38,11 +39,12 @@ public class ItemsServlet extends HttpServlet {
                         | IllegalAccessException
                         | InstantiationException
                         | InvocationTargetException
+                        | NullPointerException
                         | NoSuchMethodException e) {
                     e.printStackTrace();
                     LOGGER.error(e.getMessage());
                 }
-                doPost(req,resp);
+                doGet(req,resp);
                 break;
             case "To menu":
                 resp.sendRedirect("/menu");
@@ -54,22 +56,27 @@ public class ItemsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        try {
-            ItemService itemService = new ItemServiceImp();
-            ArrayList <Item> list = itemService.getListOfItems();
-            req.setAttribute("listOfItems", list);
-            req.getRequestDispatcher("/WEB-INF/items.jsp").forward(req, resp);
-        } catch (ClassNotFoundException
-                | NoSuchMethodException
-                | InvocationTargetException
-                | IllegalAccessException
-                | InstantiationException
-                | SQLException e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
+        User user = (User) req.getSession().getAttribute("user");
+        if (user == null){
+            resp.sendRedirect("/index");
+        }else{
+            try {
+                ItemService itemService = new ItemServiceImp();
+                ArrayList <Item> list = itemService.getListOfItems();
+                req.setAttribute("listOfItems", list);
+                req.getRequestDispatcher("/WEB-INF/items.jsp").forward(req, resp);
+            } catch (ClassNotFoundException
+                    | NoSuchMethodException
+                    | InvocationTargetException
+                    | IllegalAccessException
+                    | InstantiationException
+                    | NullPointerException
+                    | SQLException e) {
+                e.printStackTrace();
+                LOGGER.error(e.getMessage());
+                req.getRequestDispatcher("/WEB-INF/error.jsp").forward(req,resp);
+            }
         }
-
-
 
 
     }

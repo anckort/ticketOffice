@@ -23,7 +23,7 @@ public class MenuServlet extends HttpServlet {
                 resp.sendRedirect("/items");
                 break;
             case "Registration":
-                resp.sendRedirect("/registration");
+                resp.sendRedirect("/users");
                 break;
             case "Cash desk":
                 resp.sendRedirect("/cashDesk");
