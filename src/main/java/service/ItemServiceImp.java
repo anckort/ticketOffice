@@ -2,6 +2,7 @@ package service;
 
 import connectors.ConnectionToDB;
 import entity.Item;
+import org.apache.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ItemServiceImp implements ItemService {
+    private static final Logger LOGGER = Logger.getLogger(ItemServiceImp.class.getName());
+
     @Override
     public ArrayList<Item> getListOfItems() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
         ArrayList<Item> list = new ArrayList<Item>();
@@ -30,7 +33,7 @@ public class ItemServiceImp implements ItemService {
         statement.setString(1,name);
         statement.setString(2,code);
         int rs = statement.executeUpdate();
-
+        LOGGER.info("added new item "+name);
         if (rs==1){
             connection.closeConnection();
             return true;

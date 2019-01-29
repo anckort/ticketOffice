@@ -8,6 +8,7 @@
 </head>
 <body>
 <form action="xReport" method="post">
+    <input type="submit" name="btn" value="To menu">
     <table>
         <tr>
             <td>Date:</td>
@@ -18,18 +19,22 @@
     <table>
         <thead>
             <tr>
+                <td>User</td>
+                <td>Ticket</td>
                 <td>Name</td>
                 <td>Count</td>
             </tr>
         </thead>
         <tbody>
-        <% ArrayList<CashDeskItem> listOfItems = (ArrayList <CashDeskItem>) request.getAttribute("listOfItems");
+        <% ArrayList listOfItems = (ArrayList) request.getAttribute("listOfItems");
             request.setAttribute("listOfItems",listOfItems);%>
         <c:set var="listOfItems" value="${listOfItems}" scope="session"/>
         <c:forEach var="item" items="${listOfItems}">
             <tr>
-                <td> ${item.getItem().getName()}</td>
-                <td> ${item.getCount()}</td>
+                <td> ${item.user}</td>
+                <td> ${item.ticket}</td>
+                <td> ${item.item}</td>
+                <td> ${item.count}</td>
             </tr>
         </c:forEach>
         </tbody>

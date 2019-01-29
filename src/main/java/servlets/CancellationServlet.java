@@ -2,6 +2,7 @@ package servlets;
 
 import entity.CashDeskItem;
 import entity.User;
+import org.apache.log4j.Logger;
 import service.CashDeskService;
 import service.CashDeskServiceImp;
 
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 
 @WebServlet (urlPatterns = "/cancellation")
 public class CancellationServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(CancellationServlet.class.getName());
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");

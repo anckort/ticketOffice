@@ -3,6 +3,7 @@ package servlets;
 import entity.CashDeskItem;
 import entity.Item;
 import entity.User;
+import org.apache.log4j.Logger;
 import service.CashDeskService;
 import service.CashDeskServiceImp;
 import service.ItemService;
@@ -13,7 +14,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 @WebServlet (urlPatterns = "/cashDesk")
 public class CashDeskServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(CashDeskServlet.class.getName());
+
     ArrayList<CashDeskItem> listOfItems = new ArrayList <CashDeskItem>();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,6 +55,7 @@ public class CashDeskServlet extends HttpServlet {
                         | InstantiationException
                         | SQLException e) {
                     e.printStackTrace();
+                    LOGGER.error(e.getMessage());
                 }
                 break;
             case "Add":
@@ -78,6 +81,7 @@ public class CashDeskServlet extends HttpServlet {
                         | IllegalAccessException
                         | SQLException e) {
                     e.printStackTrace();
+                    LOGGER.error(e.getMessage());
                 }
                 break;
             case "Sale":
@@ -96,6 +100,7 @@ public class CashDeskServlet extends HttpServlet {
                         | IllegalAccessException
                         | SQLException e) {
                     e.printStackTrace();
+                    LOGGER.error(e.getMessage());
                 }
                 break;
             case "To menu":

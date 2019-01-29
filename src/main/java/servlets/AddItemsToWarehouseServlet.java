@@ -2,7 +2,7 @@ package servlets;
 
 import entity.Item;
 import entity.User;
-import entity.WarehouseItem;
+import org.apache.log4j.Logger;
 import service.ItemService;
 import service.ItemServiceImp;
 import service.WarehouseService;
@@ -19,6 +19,7 @@ import java.sql.SQLException;
 
 @WebServlet (urlPatterns = "/addToWarehouse" )
 public class AddItemsToWarehouseServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(AddItemsToWarehouseServlet.class.getName());
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,6 +41,7 @@ public class AddItemsToWarehouseServlet extends HttpServlet {
                         | SQLException
                         | IllegalAccessException e) {
                     e.printStackTrace();
+                    LOGGER.error(e.getMessage());
                 }
                 break;
             case "Add":
@@ -50,11 +52,11 @@ public class AddItemsToWarehouseServlet extends HttpServlet {
                     boolean rs = warehouseService.addItemToWarehouse(itemID.intValue(),count.intValue());
                     String errorStr = "";
                     if (rs){
-                        req.getRequestDispatcher("/warehouse").forward(req,resp);
+                       resp.sendRedirect("/warehouse");
                     }
                     else{
-                        errorStr.concat("Not founded such item");
-                        req.setAttribute("errorStr", errorStr);
+                        errorStr.concat("Not founded such item, id= "+itemID);
+                        LOGGER.error(errorStr);
                         req.getRequestDispatcher("WEB-INF/addItemToWarehouse.jsp").forward(req,resp);
                     }
                 } catch (ClassNotFoundException
@@ -64,6 +66,7 @@ public class AddItemsToWarehouseServlet extends HttpServlet {
                         | IllegalAccessException
                         | SQLException e) {
                     e.printStackTrace();
+                    LOGGER.error(e.getMessage());
                 }
                 break;
             case "Cancel":

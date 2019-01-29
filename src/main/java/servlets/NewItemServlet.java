@@ -1,6 +1,7 @@
 package servlets;
 
 import entity.User;
+import org.apache.log4j.Logger;
 import service.ItemService;
 import service.ItemServiceImp;
 
@@ -15,6 +16,8 @@ import java.sql.SQLException;
 
 @WebServlet (urlPatterns = "/newItem")
 public class NewItemServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(ItemsServlet.class.getName());
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -46,6 +49,7 @@ public class NewItemServlet extends HttpServlet {
                         | InvocationTargetException
                         | NoSuchMethodException e) {
                     e.printStackTrace();
+                    LOGGER.error(e.getMessage());
                 }
                 break;
             case "Cancel":

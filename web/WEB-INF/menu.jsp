@@ -3,7 +3,14 @@
 <html>
 <head>
     <title>Menu</title>
-    <%User user = (User) request.getAttribute("user");%>
+    <%User user = (User) request.getSession().getAttribute("user");
+    String role = user.getRole();
+    String visibleType;
+    if (role.equals("admin")){
+        visibleType = "submit";
+    }else{
+        visibleType = "hidden";
+    }%>
 </head>
 <body>
 <form action="menu" method="post">
@@ -20,7 +27,7 @@
     </tr>
     <tr>
         <td>
-            <input type="submit" name="ref" value="Registration" size="500">
+            <input type=<%=visibleType%> name="ref" value="Registration" size="500">
         </td>
     </tr>
     <tr>
@@ -31,6 +38,16 @@
     <tr>
         <td>
             <input type="submit" name="ref" value="Cancellation" size="500">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="submit" name="ref" value="X Report" size="500">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="submit" name="ref" value="Log out" size="500">
         </td>
     </tr>
 </table>

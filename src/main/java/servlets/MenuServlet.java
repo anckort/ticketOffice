@@ -15,7 +15,6 @@ public class MenuServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String pressedUrl = (String) req.getParameter("ref");
-//        User user = (User) req.getAttribute("user");
         switch (pressedUrl){
             case "Warehouse":
                 resp.sendRedirect("/warehouse");
@@ -31,6 +30,13 @@ public class MenuServlet extends HttpServlet {
                 break;
             case"Cancellation":
                 resp.sendRedirect("/cancellation");
+                break;
+            case"X Report":
+                resp.sendRedirect("/xReport");
+                break;
+            case"Log out":
+                req.getSession().setAttribute("user",null);
+                resp.sendRedirect("/index");
                 break;
         }
 

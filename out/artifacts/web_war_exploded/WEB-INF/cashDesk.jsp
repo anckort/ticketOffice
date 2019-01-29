@@ -2,18 +2,26 @@
 <%@ page import="entity.Item" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="entity.CashDeskItem" %>
+<%@ page import="entity.User" %>
 <html>
 <title>
     Cash desk
 </title>
 <head>
-
+<%User user = (User) request.getSession().getAttribute("user");
+  String role = user.getRole();
+  String visibleType;
+  if (role.equals("admin") || role.equals("olderSalesman")){
+      visibleType = "submit";
+  }else{
+      visibleType = "hidden";
+  }%>
 </head>
 <body>
 <form action="cashDesk" method="post">
     <table>
         <tr>
-            <input type="submit" name="btn" value="To menu">
+            <input type=<%=visibleType%> name="btn" value="To menu">
         </tr>
         <tr>
             <td>Please input code or name:</td>

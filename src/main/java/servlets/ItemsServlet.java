@@ -2,6 +2,7 @@ package servlets;
 
 import controller.ItemController;
 import entity.Item;
+import org.apache.log4j.Logger;
 import service.ItemService;
 import service.ItemServiceImp;
 
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 @WebServlet(urlPatterns = "/items")
 public class ItemsServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(ItemsServlet.class.getName());
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,7 +26,7 @@ public class ItemsServlet extends HttpServlet {
         String prsBtn = req.getParameter("btn");
         switch (prsBtn) {
             case "Add new item":
-                req.getRequestDispatcher("//WEB-INF/newItem.jsp").forward(req, resp);
+                resp.sendRedirect("/newItem");
                 break;
             case "Delete selected":
                 String[] ar = req.getParameterValues("id");
@@ -38,11 +40,12 @@ public class ItemsServlet extends HttpServlet {
                         | InvocationTargetException
                         | NoSuchMethodException e) {
                     e.printStackTrace();
+                    LOGGER.error(e.getMessage());
                 }
                 doPost(req,resp);
                 break;
             case "To menu":
-                req.getRequestDispatcher("//WEB-INF/menu.jsp").forward(req, resp);
+                resp.sendRedirect("/menu");
                 break;
         }
 
@@ -63,6 +66,7 @@ public class ItemsServlet extends HttpServlet {
                 | InstantiationException
                 | SQLException e) {
             e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
 
 

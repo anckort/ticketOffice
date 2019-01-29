@@ -1,7 +1,7 @@
 package servlets;
 
-import controller.UserController;
 import entity.User;
+import org.apache.log4j.Logger;
 import service.UserService;
 import service.UserServiceImp;
 
@@ -16,6 +16,8 @@ import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/registration")
 public class RegistrationServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(ItemsServlet.class.getName());
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserService userService = new UserServiceImp();
@@ -28,7 +30,6 @@ public class RegistrationServlet extends HttpServlet {
                 try {
                     if (userService.addNewUser(username,password,role)){
                         resp.getWriter().write("Succes!");
-//                        resp.reset();
                     }
                 } catch (ClassNotFoundException
                         | NoSuchMethodException
@@ -37,6 +38,7 @@ public class RegistrationServlet extends HttpServlet {
                         | IllegalAccessException
                         | SQLException e) {
                     e.printStackTrace();
+                    LOGGER.error(e.getMessage());
                 }
         }
 

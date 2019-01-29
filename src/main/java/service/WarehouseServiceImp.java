@@ -3,6 +3,7 @@ package service;
 import connectors.ConnectionToDB;
 import entity.Item;
 import entity.WarehouseItem;
+import org.apache.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
@@ -11,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class WarehouseServiceImp implements WarehouseService {
+    private static final Logger LOGGER = Logger.getLogger(WarehouseServiceImp.class.getName());
     @Override
     public ArrayList<WarehouseItem> getListOfWarehousItems() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
         ConnectionToDB connection = new ConnectionToDB();
@@ -49,8 +51,10 @@ public class WarehouseServiceImp implements WarehouseService {
         statement.setInt(2,count);
         int rs = statement.executeUpdate();
         if(rs == 1 ){
+            LOGGER.info("added new item to warehouse");
             return true;
         }
+        LOGGER.error("error of adding new item to warehouse");
         return false;
     }
 }

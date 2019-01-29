@@ -1,6 +1,7 @@
 package servlets;
 
 import entity.WarehouseItem;
+import org.apache.log4j.Logger;
 import service.WarehouseService;
 import service.WarehouseServiceImp;
 
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 
 @WebServlet(urlPatterns = "/warehouse")
 public class WarehouseServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(ItemsServlet.class.getName());
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -32,6 +35,7 @@ public class WarehouseServlet extends HttpServlet {
                 | InstantiationException
                 | SQLException e) {
             e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
 
 

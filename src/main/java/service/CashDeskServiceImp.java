@@ -4,19 +4,18 @@ import connectors.ConnectionToDB;
 import entity.CashDeskItem;
 import entity.Item;
 import entity.User;
+import org.apache.log4j.Logger;
 
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
+import java.util.*;
 
 
 public class CashDeskServiceImp implements CashDeskService {
+    private static final Logger LOGGER = Logger.getLogger(CashDeskServiceImp.class.getName());
 
     @Override
     public void AddSale(ArrayList<CashDeskItem> listOfItems, User user) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
@@ -35,24 +34,19 @@ public class CashDeskServiceImp implements CashDeskService {
                 statementTicket.setTimestamp(2, date);
                 statementTicket.executeUpdate();
 
-                Statement statement = connection.getConnection().createStatement();
-
-
-//
-
                 PreparedStatement statementCashDesk = connection.getConnection().prepareStatement("INSERT INTO cashdesk(item, count, date) VALUES (?,?,?);");
                 statementCashDesk.setInt(1, item.getItem().getId());
                 statementCashDesk.setInt(2, item.getCount());
                 statementCashDesk.setTimestamp(3, date);
-//                statementCashDesk.setInt(4,ticketKey);
                 statementCashDesk.executeUpdate();
-
-
+                LOGGER.info("added new sale in to cash desk");
 
                 PreparedStatement statementWarehouse = connection.getConnection().prepareStatement("INSERT  INTO warehouse(count, item) VALUES (?,?);");
                 statementWarehouse.setInt(1, item.getCount() * -1);
                 statementWarehouse.setInt(2, item.getItem().getId());
                 statementWarehouse.executeUpdate();
+                LOGGER.info("goods "+item.getItem().getName()+" are deducted from stock");
+
 
                 connection.getConnection().commit();
 
@@ -75,9 +69,11 @@ public class CashDeskServiceImp implements CashDeskService {
                 statementUpdateCD.setTimestamp(4, date);
                 statementUpdateCD.executeUpdate();
                 connection.getConnection().commit();
+                LOGGER.info("added new sale ticketID="+String.valueOf(ticketKey));
             }catch (SQLException e){
                 e.printStackTrace();
                 connection.getConnection().rollback();
+                LOGGER.error(e.getMessage());
             }
         }
     }
@@ -128,8 +124,17 @@ public class CashDeskServiceImp implements CashDeskService {
         ConnectionToDB connection = new ConnectionToDB();
         String arByStr = (String) connection.prepareArrayForQuery(Arrays.asList(list));
         PreparedStatement statement = connection.getConnection().prepareStatement("UPDATE cashdesk SET cashdesk.canceled = 1 WHERE cashdesk.idcashDesk IN ("+arByStr+");");
+        try {
+            statement.executeUpdate();
+            connection.closeConnection();
+            LOGGER.info("canceled sale");
+        }catch (SQLException e){
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+        }
 
-        statement.executeUpdate();
-        connection.closeConnection();
+
     }
+
+
 }

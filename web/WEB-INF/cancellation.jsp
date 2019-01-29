@@ -29,18 +29,17 @@
         <th></th>
         <th>Name</th>
         <th>Count</th>
-        <%--<th  style="visibility:hidden;">Item</th>--%>
+
     </tr>
     </thead>
     <tbody>
-    <%--<% ArrayList<CashDeskItem> listOfItems = (ArrayList<CashDeskItem>) request.getAttribute("listOfItems");%>--%>
+
     <c:set var="listOfItems" value="${listOfItems}" scope="session"/>
     <c:forEach var="item" items="${listOfItems}">
         <tr>
             <td><input type="checkbox" name="id" value="${item.getID()}"></td>
             <td> ${item.getItem().getName()}</td>
             <td> ${item.getCount()}</td>
-            <%--<td style="visibility:collapse;"> ${item.getItem()}</td>--%>
         </tr>
     </c:forEach>
     </tbody>

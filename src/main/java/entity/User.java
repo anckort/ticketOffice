@@ -2,12 +2,12 @@ package entity;
 
 public class User {
     String username;
-    String password;
+    String role;
     int id;
 
-    public User(String username, String password, int id) {
+    public User(String username, String role, int id) {
         this.username = username;
-        this.password = password;
+        this.role = role;
         this.id = id;
     }
 
@@ -19,12 +19,12 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getRole() {
+        return role;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public int getId() {
@@ -39,7 +39,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                ", role='" + role+ '\'' +
                 ", id=" + id +
                 '}';
     }
