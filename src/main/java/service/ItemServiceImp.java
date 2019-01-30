@@ -9,9 +9,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * class of service item
+ * @author  Stas Bondarchuk
+ */
 public class ItemServiceImp implements ItemService {
     private static final Logger LOGGER = Logger.getLogger(ItemServiceImp.class.getName());
-
+    /**
+     * function of getting list of items
+     */
     @Override
     public ArrayList<Item> getListOfItems() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
         ArrayList<Item> list = new ArrayList<Item>();
@@ -26,6 +32,9 @@ public class ItemServiceImp implements ItemService {
         return list;
     }
 
+    /**
+     * function of adding new items to list
+     */
     @Override
     public boolean addNewItem(String name, String code) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
         ConnectionToDB connection = new ConnectionToDB();
@@ -42,6 +51,9 @@ public class ItemServiceImp implements ItemService {
         return false;
     }
 
+    /**
+     * function of deletion new items from list
+     */
     @Override
     public boolean deleteSelectedItems(String[] ar) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
         ConnectionToDB connection = new ConnectionToDB();
@@ -58,6 +70,9 @@ public class ItemServiceImp implements ItemService {
         return false;
     }
 
+    /**
+     * function of getting items from list by code or name
+     */
     @Override
     public Item getItemByCodeOrName(String fieldForSearch) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
 

@@ -1,7 +1,13 @@
 package entity;
 
+/**
+ * class of entity warehouse item with attributes <b>id</b> <b>name</b> <b>code</b>
+ * @author  Stas Bondarchuk
+ */
 public class WarehouseItem {
+    /** attribute count*/
     int count;
+    /** attribute item*/
     Item item;
 
     public WarehouseItem( int count, Item item) {

@@ -16,7 +16,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * class of reports service
+ * @author  Stas Bondarchuk
+ */
 public class ReportsServiceImp implements ReportsService {
+    /**
+     * function of getting data for x report
+     */
     @Override
     public ArrayList getSaledItemsXReport(String date) {
         ConnectionToDB connection = null;

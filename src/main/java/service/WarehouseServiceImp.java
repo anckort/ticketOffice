@@ -11,8 +11,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * class of warehouse service
+ * @author  Stas Bondarchuk
+ */
 public class WarehouseServiceImp implements WarehouseService {
     private static final Logger LOGGER = Logger.getLogger(WarehouseServiceImp.class.getName());
+
+    /**
+     * function of getting list of items from warehouse
+     */
     @Override
     public ArrayList<WarehouseItem> getListOfWarehousItems() throws IllegalAccessException {
         ConnectionToDB connection = null;
@@ -44,6 +52,9 @@ public class WarehouseServiceImp implements WarehouseService {
         return list;
     }
 
+    /**
+     * function of checking count of items in warehouse
+     */
     @Override
     public boolean checkCountOfItems(int itemId, int count) {
         ConnectionToDB connection = null;
@@ -73,6 +84,9 @@ public class WarehouseServiceImp implements WarehouseService {
         return false;
     }
 
+    /**
+     * function of adding items to warehouse list
+     */
     @Override
     public boolean addItemToWarehouse(int itemId, int count) throws IllegalAccessException {
         ConnectionToDB connection = null;

@@ -1,8 +1,15 @@
 package entity;
 
+/**
+ * class of entity user with attributes <b>username</b> <b>role</b> <b>id</b>
+ * @author  Stas Bondarchuk
+ */
 public class User {
+    /** attribute username*/
     String username;
+    /** attribute role*/
     String role;
+    /** attribute id*/
     int id;
 
     public User(String username, String role, int id) {

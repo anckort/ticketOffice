@@ -2,11 +2,21 @@ package entity;
 
 import java.sql.Date;
 
+
+/**
+ * class of entity cash desk item with attributes <b>id</b> <b>name</b> <b>code</b>
+ * @author  Stas Bondarchuk
+ */
 public class CashDeskItem {
+    /** attribute item*/
     Item item;
+    /** attribute count*/
     int count;
+    /** attribute ticket id*/
     int ticketID;
+    /** attribute date*/
     Date date;
+    /** attribute id*/
     int ID;
 
     public int getID() {

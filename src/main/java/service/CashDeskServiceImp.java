@@ -13,10 +13,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-
+/**
+ * class of service cash desk item
+ * @author  Stas Bondarchuk
+ */
 public class CashDeskServiceImp implements CashDeskService {
     private static final Logger LOGGER = Logger.getLogger(CashDeskServiceImp.class.getName());
-
+    /**
+     * procedure of adding sale to cash desk
+     */
     @Override
     public void AddSale(ArrayList<CashDeskItem> listOfItems, User user) {
         ConnectionToDB connection = null;
@@ -88,7 +93,9 @@ public class CashDeskServiceImp implements CashDeskService {
             }
         }
     }
-
+    /**
+     * function of getting sale from cash desk by ticket id
+     */
     public ArrayList<CashDeskItem> getSalesByTicketID(int ticketID) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, SQLException {
         ArrayList<CashDeskItem> list = new ArrayList <>();
 
@@ -129,7 +136,9 @@ public class CashDeskServiceImp implements CashDeskService {
 
         return list;
     }
-
+    /**
+     * procedure of cancellation sale
+     */
     @Override
     public void cancelSale(String[] list) {
         ConnectionToDB connection = null;

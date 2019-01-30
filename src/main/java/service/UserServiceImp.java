@@ -10,9 +10,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * class of entity user service
+ * @author  Stas Bondarchuk
+ */
 public class UserServiceImp implements UserService{
     private static final Logger LOGGER = Logger.getLogger(UserServiceImp.class.getName());
 
+    /**
+     * function of checking user data for authentication
+     */
     public User checkLogIn(String username, String password) {
         ConnectionToDB connection = null;
         try {
@@ -36,6 +43,9 @@ public class UserServiceImp implements UserService{
         return null;
     }
 
+    /**
+     * function of adding new user to list
+     */
     @Override
     public Boolean addNewUser(String username, String password, String role) throws IllegalAccessException {
         ConnectionToDB connection = null;
@@ -61,6 +71,9 @@ public class UserServiceImp implements UserService{
         return false;
     }
 
+    /**
+     * function of getting list of users
+     */
     @Override
     public ArrayList<User> getListOfUsers() {
         ArrayList<User> list = new ArrayList <>();
